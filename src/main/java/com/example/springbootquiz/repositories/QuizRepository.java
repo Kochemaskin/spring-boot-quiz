@@ -1,7 +1,9 @@
 package com.example.springbootquiz.repositories;
 
-import com.example.springbootquiz.entities.Question;
+import com.example.springbootquiz.entities.Quiz;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface QuizRepository extends JpaRepository<Question, Long> {
+@Repository
+public interface QuizRepository extends JpaRepository<Quiz, Integer> {
 }

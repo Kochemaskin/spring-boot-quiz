@@ -1,26 +1,44 @@
 package com.example.springbootquiz.controllers;
 
-import com.example.springbootquiz.entities.Question;
-import com.example.springbootquiz.repositories.QuizRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.springbootquiz.entities.QuestionWrapper;
+import com.example.springbootquiz.entities.Response;
+import com.example.springbootquiz.service.QuizService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/quiz")
+@RequestMapping("/quiz")
+@RequiredArgsConstructor
 public class QuizController {
 
-    @Autowired
-    private QuizRepository quizRepository;
+    private final QuizService quizService;
 
-    @GetMapping("/questions")
-    public List<Question> getAllQuestions() {
-        return quizRepository.findAll();
+    @PostMapping("/create")
+    public ResponseEntity<String> createQuiz(
+            @RequestParam String category,
+            @RequestParam int numQ,
+            @RequestParam String title
+    ) {
+        return quizService.createQuiz(category, numQ, title);
     }
 
-    @PostMapping("/questions")
-    public Question createQuestion(@RequestBody Question question) {
-        return quizRepository.save(question);
+    @GetMapping("/{id}")
+    public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(
+            @PathVariable Integer id
+    ) {
+        return quizService.getQuizQuestions(id);
     }
+
+    @PostMapping("/submit/{id}")
+    public ResponseEntity<Integer> submitQuiz(
+            @PathVariable Integer id,
+            @RequestBody List<Response> responses
+    ) {
+        return quizService.calculateResult(id, responses);
+    }
+
 }
