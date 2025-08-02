@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Quiz Setup</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+        form div { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        select, input[type="number"] { width: 100%; padding: 8px; }
+        button { padding: 10px 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<h1>Create a New Quiz</h1>
+
+<form th:action="@{/quiz}" method="post">
+    <div>
+        <label for="topicName">Choose a Topic:</label>
+        <select id="topicName" name="topicName" required>
+            <option th:each="topic : ${topics}"
+                    th:value="${topic.name}"
+                    th:text="${topic.name}">
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <label for="numQuestions">Number of Questions:</label>
+        <input type="number" id="numQuestions" name="numQuestions" min="1" max="10" value="5" required />
+    </div>
+
+    <div>
+        <label>Difficulty:</label>
+        <input type="checkbox" id="easy" name="difficulties" value="Easy" checked />
+        <label for="easy">Easy</label>
+        <input type="checkbox" id="medium" name="difficulties" value="Medium" />
+        <label for="medium">Medium</label>
+        <input type="checkbox" id="hard" name="difficulties" value="Hard" />
+        <label for="hard">Hard</label>
+    </div>
+
+    <button type="submit">Let's Go!</button>
+</form>
+
+</body>
+</html>

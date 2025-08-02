@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Play Quiz</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 20px; }
+        .question-block { margin-bottom: 25px; border-bottom: 1px solid #ccc; padding-bottom: 15px; }
+        h3 { margin-top: 0; }
+        .option { margin-left: 20px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer;}
+    </style>
+</head>
+<body>
+
+<h1>Quiz in Progress...</h1>
+
+<form th:action="@{/quiz/submit}" method="post">
+    <div th:each="question : ${questions}" class="question-block">
+        <h3 th:text="${question.questionText}"></h3>
+
+        <div th:each="option : ${question.options}" class="option">
+            <input type="radio"
+                   th:name="'answers[' + ${question.id} + ']'"
+                   th:value="${option.id}"
+                   required="required" />
+            <label th:text="${option.optionText}"></label>
+        </div>
+    </div>
+
+    <button type="submit">Submit Answers</button>
+</form>
+
+</body>
+</html>
